@@ -2,6 +2,9 @@
 
 > Deploy Empire in less than 3min to the cloud using Terraform
 
+### How to use this tool
+This blog post is better than the readme: [https://www.sprocketsecurity.com/blog/autored-empire](https://www.sprocketsecurity.com/blog/autored-empire)
+
 ### Setup and Deploy
 
 1. Install terraform
