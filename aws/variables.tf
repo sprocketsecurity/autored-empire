@@ -4,6 +4,6 @@ variable "aws_priv_key" {
 
 variable "client_name" {
 	description = "Client's name that will get appened to the virtual machines name for easy identification"
-	# uncomment below to ask each time
+	# comment out the line below to prompt each time you run terraform apply
 	default = ""
 }

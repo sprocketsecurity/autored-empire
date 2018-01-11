@@ -39,10 +39,11 @@ resource "aws_instance" "autored-empire" {
     }
   }
 
-  # copy stager outputs to local host
-  provisioner "local-exec" {
-    command = "scp -i ${var.aws_priv_key} ubuntu@${aws_instance.autored-empire.public_ip}:Empire/stager-* output/"
-  }
+  # cant figure out why this causes terraform to hang
+  ## copy stager outputs to local host
+  #provisioner "local-exec" {
+  #  command = "scp -o StrictHostKeyChecking=no -i ${var.aws_priv_key} ubuntu@${aws_instance.autored-empire.public_ip}:Empire/stager-* output/"
+  #}
 
 }
 

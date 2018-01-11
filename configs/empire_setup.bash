@@ -53,3 +53,7 @@ screen -dmS empire sudo ./empire
 sleep 5
 # if you wanted to issue more commands, this is how you'd do it
 screen -S empire -X stuff 'resource startup.rc\n'
+
+# change perms on files for downloading
+sleep 6
+sudo chown ubuntu:ubuntu /home/ubuntu/Empire/stager-*
