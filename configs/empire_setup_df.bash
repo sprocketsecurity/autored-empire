@@ -4,7 +4,13 @@
 sudo apt-get update
 sudo apt-get -y install git-core screen
 sudo apt-get -y install python2.7 python2.7-dev
+sudo apt-get -y install letsencrypt
 sudo ln -s /usr/bin/python2.7 /usr/bin/python
+
+# create ssl cert
+# TODO modify this command so no interaction is needed
+#letsencrypt --register-unsafely-without-email certonly
+# certs stored here: etc/letsencrypt/live/$HOSTNAME/
 
 # install and configure empire
 git clone https://github.com/EmpireProject/Empire
